@@ -24,6 +24,12 @@ jobs:
         type: string
     docker:
       - image: cimg/node:18.16.0-browsers
+    environment:
+      BUILD_PATH: dist
+      BUCKET_NAME: build-prod.wico.dev
+      BUCKET_REGION: ap-northeast-1
+      CACHE_CONTROL: "max-age=0"
+      AWS_DEFAULT_REGION: "ap-northeast-1"
 
     steps:
       - checkout
@@ -38,3 +44,10 @@ jobs:
           working_directory: ./
           command: |
             npm run build || exit 1
+
+      - run:
+          name: Deploy Build files to S3
+          working_directory: ./<<parameters.app>>
+          command: |
+            aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
+            aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
