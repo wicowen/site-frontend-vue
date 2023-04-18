@@ -27,3 +27,14 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Setting up project
+          working_directory: ./
+          command: |
+            npm install
+
+      - run:
+          name: Build <<parameters.app>>
+          working_directory: ./
+          command: |
+            npm run build || exit 1
