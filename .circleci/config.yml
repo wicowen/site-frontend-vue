@@ -7,25 +7,13 @@ orbs:
 workflows:
   frontend_deploy:
     jobs:
-      - hold_site:
-          type: approval
-          filters:
-            branches:
-              only: main
-
       - prod_deploy:
           name: "prod_deploy_site"
-          app: "search"
+          app: "site"
           deploy_version: "202304181345"
-          # context:
-          #   - cloudflare
-          #   - slack
-          # requires:
-          #   - hold_search
           filters:
             branches:
               only: main
-
 
 jobs:
   prod_deploy:
@@ -34,43 +22,8 @@ jobs:
         type: string
       deploy_version:
         type: string
-      # cdn_base_url:
-      #   type: string
-      #   default: "https://d1dje6dyg15dn.cloudfront.net"
     docker:
       - image: cimg/node:18.16.0-browsers
-    # working_directory: ~/<<parameters.app>>
-    environment:
-      BUILD_PATH: dist
-      BUCKET_NAME: site-frontend-vue
-      BUCKET_REGION: ap-northeast-1
-      CACHE_CONTROL: "max-age=86400"
-      AWS_DEFAULT_REGION: "ap-northeast-1"
 
     steps:
       - checkout
-
-      # - check-changed-files-or-halt:
-      #     pattern: <<parameters.app>>
-
-      - aws-cli/setup:
-          #profile-name: default
-          #version: "2"
-
-      - run:
-          name: Setting up project
-          working_directory: ./
-          command: |
-            npm install
-
-
-      - run:
-          name: Build <<parameters.app>>
-          # working_directory: ./somefolder
-          command: |
-            # cd <<parameters.app>>
-            # echo "VUE_APP_ASSET_URL=<<parameters.app>>/<<parameters.deploy_version>>" >>.env.production
-            npm run build || exit 1
-
-
-
