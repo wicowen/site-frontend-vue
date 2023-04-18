@@ -2,8 +2,7 @@ version: 2.1
 orbs:
   # circle ci orb's doc
   # https://circleci.com/developer/orbs?filterBy=popular&query=&page=1&pageSize=15
-  # aws-cli: circleci/aws-cli@3.1
-  aws-cli: circleci/aws-cli@1.4.1
+  aws-cli: circleci/aws-cli@3.1
 
 workflows:
   frontend_deploy:
@@ -48,11 +47,19 @@ jobs:
           working_directory: ./
           command: npm install
 
+
+      - run:
+          name: Build <<parameters.app>>
+          working_directory: ./
+          command: |
+            pwd
+            ls -la
+
       # save any changes to the cache
       - save_cache:
           key: yarn-packages-v2107261140-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
           paths: 
-            - ~/node_modules
+            - node_modules
  
       - run:
           name: Build <<parameters.app>>
@@ -60,9 +67,9 @@ jobs:
           command: |
             npm run build || exit 1
 
-      - run:
-          name: Deploy Build files to S3
-          working_directory: ./<<parameters.app>>
-          command: |
-            aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
-            aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
+      # - run:
+      #     name: Deploy Build files to S3
+      #     working_directory: ./<<parameters.app>>
+      #     command: |
+      #       aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
+      #       aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
