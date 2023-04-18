@@ -34,37 +34,30 @@ jobs:
     steps:
       - checkout
 
-      # look for existing cache and restore if found
       - restore_cache:
-          name: Restore Yarn Package Cache
-          working_directory: ./
+          name: Restore Cache
           keys:
             - npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
-            - npm-packages-v202304181345-{{ .Branch }}- # used if checksum fail
+            - npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>- # used if checksum fail
 
-      # install dependencies    
       - run:
           name: npm install
-          working_directory: ./
           command: npm clean-install
 
       - run:
           name: Build <<parameters.app>>
-          working_directory: ./
           command: |
             pwd
             ls -la
 
       # save any changes to the cache
       - save_cache:
-          working_directory: ./
           key: npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
           paths: 
             - node_modules
  
       - run:
           name: Build <<parameters.app>>
-          working_directory: ./
           command: |
             npm run build || exit 1
 
