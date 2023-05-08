@@ -78,11 +78,8 @@ jobs:
           name: Deploy Build files to S3
           # working_directory: ./<<parameters.app>>
           command: |
-            aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
-            aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=666" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
-            # aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
-            # aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
-
+            aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
+            aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
 
       # - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
       # - aws-s3/sync:
