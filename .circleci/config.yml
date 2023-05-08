@@ -1,8 +1,10 @@
 version: 2.1
+
+# circle ci orb's doc
+# https://circleci.com/developer/orbs?filterBy=popular&query=&page=1&pageSize=15
 orbs:
-  # circle ci orb's doc
-  # https://circleci.com/developer/orbs?filterBy=popular&query=&page=1&pageSize=15
-  aws-cli: circleci/aws-cli@3.1
+  aws-s3: circleci/aws-s3@3.1
+  # aws-cli: circleci/aws-cli@3.1
 
 workflows:
   frontend_deploy:
