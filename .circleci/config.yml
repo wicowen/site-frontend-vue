@@ -82,12 +82,12 @@ jobs:
       - aws-s3/sync:
           arguments: |
             --acl public-read \
-            --cache-control "max-age=0"
+            --cache-control "max-age=100"
           from: bucket
-          # role-arn: arn:aws:s3:::build-prod.wico.dev
+          role-arn: arn:aws:s3:::build-prod.wico.dev
           to: s3://build-prod.wico.dev/v0
-      - aws-s3/copy:
-          arguments: '--dryrun'
-          from: bucket/build_asset.txt
-          install-aws-cli: false
-          to: s3://my-s3-bucket-name
+      # - aws-s3/copy:
+      #     arguments: '--dryrun'
+      #     from: bucket/build_asset.txt
+      #     install-aws-cli: false
+      #     to: s3://my-s3-bucket-name
