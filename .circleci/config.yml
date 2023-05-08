@@ -37,6 +37,10 @@ jobs:
     steps:
       - checkout
 
+      - aws-cli/setup:
+          profile-name: default
+          version: "2"
+
       - restore_cache:
           name: Restore Cache
           keys:
