@@ -29,9 +29,9 @@ jobs:
       - image: cimg/node:18.16.0-browsers
     environment:
       BUILD_PATH: dist
-      BUCKET_NAME: build-prod.wico.dev
+      BUCKET_NAME: vue.wico.dev
       BUCKET_REGION: ap-northeast-1
-      CACHE_CONTROL: "max-age=333"
+      CACHE_CONTROL: "max-age=5"
       AWS_DEFAULT_REGION: "ap-northeast-1"
 
     steps:
@@ -51,12 +51,6 @@ jobs:
           name: npm install
           command: npm clean-install
 
-      - run:
-          name: Debug info <<parameters.app>>
-          command: |
-            pwd
-            ls -la
-
       # save any changes to the cache
       - save_cache:
           key: npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
@@ -68,11 +62,11 @@ jobs:
           command: |
             npm run build || exit 1
 
-      - run:
-          name: Debug info <<parameters.app>>
-          command: |
-            pwd
-            ls -la
+      # - run:
+      #     name: Debug info <<parameters.app>>
+      #     command: |
+      #       pwd
+      #       ls -la
 
       - run:
           name: Deploy Build files to S3
