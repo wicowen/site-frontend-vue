@@ -73,17 +73,3 @@ jobs:
           command: |
             aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
             aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
-
-      # - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
-      # - aws-s3/sync:
-      #     arguments: |
-      #       --acl public-read \
-      #       --cache-control "max-age=100"
-      #     from: bucket
-      #     role-arn: arn:aws:s3:::build-prod.wico.dev
-      #     to: s3://build-prod.wico.dev/v0
-      # # - aws-s3/copy:
-      # #     arguments: '--dryrun'
-      # #     from: bucket/build_asset.txt
-      # #     install-aws-cli: false
-      # #     to: s3://my-s3-bucket-name
