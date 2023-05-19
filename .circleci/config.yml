@@ -43,8 +43,8 @@ jobs:
       - restore_cache:
           name: Restore Cache
           keys:
-            - npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
-            - npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>- # used if checksum fail
+            - npm-packages-<<parameters.deploy_version>>-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
+            - npm-packages-<<parameters.deploy_version>>-{{ .Branch }}-<<parameters.app>>- # used if checksum fail
 
       - run:
           name: npm install
@@ -52,7 +52,7 @@ jobs:
 
       # save packages as cache
       - save_cache:
-          key: npm-packages-v202304181345-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
+          key: npm-packages-<<parameters.deploy_version>>-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
           paths: 
             - node_modules
  
