@@ -1,32 +1,32 @@
 version: 2.1
 
 # circle ci orb's doc
-# https://circleci.com/developer/orbs?filterBy=popular&query=&page=1&pageSize=15
+# https://circleci.com/developer/orbs?filterBy=popular
 orbs:
-  # aws-s3: circleci/aws-s3@3.1
   aws-cli: circleci/aws-cli@3.1
+  # aws-s3: circleci/aws-s3@3.1
   # aws-cli: circleci/aws-cli@1.4.1
 
 workflows:
   frontend_deploy:
     jobs:
-      - prod_deploy:
-          name: "prod_deploy_site"
+      - prod_frontend_deploy:
+          name: "prod_frontend_site"
           app: "site"
-          deploy_version: "202304181345"
+          deploy_version: "202305191456"
           filters:
             branches:
               only: main
 
 jobs:
-  prod_deploy:
+  prod_frontend_deploy:
+    docker:
+      - image: cimg/node:18.16.0-browsers
     parameters:
       app:
         type: string
       deploy_version:
         type: string
-    docker:
-      - image: cimg/node:18.16.0-browsers
     environment:
       BUILD_PATH: dist
       BUCKET_NAME: vue.wico.dev
