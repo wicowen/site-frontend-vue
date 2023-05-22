@@ -1,5 +1,5 @@
 <template>
-  <section class="main-layout manage">
+  <section class="main-layout public-layout min-h-screen">
     <!-- <div>Dev info - layout/manage.vue</div> -->
 
     <!-- header -->
@@ -14,7 +14,7 @@
     <!-- header -->
 
     <!-- content -->
-    <router-view />
+    <RouterView />
     <!-- content -->
 
     <!-- footer -->
