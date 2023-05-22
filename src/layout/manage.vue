@@ -25,10 +25,10 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: "layout-manage",
-};
+<script setup lang="ts">
+// export default {
+//   name: "layout-manage",
+// };
 </script>
 
 <style scoped="">
