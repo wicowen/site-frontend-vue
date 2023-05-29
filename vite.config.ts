@@ -11,5 +11,17 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  server: {
+    proxy: {
+      // ref: https://vitejs.dev/config/server-options.html#server-proxy
+
+      // redirect all 'http://localhost:5173/v1/' -> 'https://api.wico.dev'
+      '/v1': {
+        target: 'https://api.wico.dev',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })
