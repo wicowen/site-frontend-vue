@@ -14,18 +14,27 @@
 
         <div class="mt-10">
           <div>
-            <form action="#" method="POST" class="space-y-6">
+
+            <form @submit.prevent="doLogin" class="space-y-6">
               <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                 <div class="mt-2">
-                  <input id="email" name="email" type="email" autocomplete="email" required="true" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input
+                    v-model="email"
+                    id="email" name="email" type="email" autocomplete="email" required="true"
+                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                  />
                 </div>
               </div>
 
               <div>
                 <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                 <div class="mt-2">
-                  <input id="password" name="password" type="password" autocomplete="current-password" required="true" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <input
+                    v-model="password"
+                    id="password" name="password" type="password" autocomplete="current-password" required="true" 
+                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                  />
                 </div>
               </div>
 
@@ -79,7 +88,7 @@
       </div>
     </div>
     <div class="relative hidden w-0 flex-1 lg:block">
-      <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" />
+      <!-- <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" /> -->
     </div>
   </div>
 
@@ -93,7 +102,42 @@
   -->
 </template>
 
-<script setup lang="ts">
+<script>
+import { ref, reactive } from 'vue';
+
+export default {
+  setup() {
+    const email = ref('is@wico.cc');
+    const password = ref('demoPwd123');
+
+    async function doLogin() {
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("email", email.value);
+        urlencoded.append("password", password.value);
+
+        var requestOptions = {
+          method: 'POST',
+          body: urlencoded,
+          // redirect: 'follow'
+        };
+
+        return fetch("http://localhost:5173/v1/login", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+    }
+
+    return {
+      email,
+      password,
+      login,
+    };
+  }
+};
+
+
 </script>
   
-<style></style>
+<style scoped>
+</style>
