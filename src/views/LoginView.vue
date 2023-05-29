@@ -102,41 +102,41 @@
   -->
 </template>
 
-<script>
+<script setup>
 import { ref, reactive } from 'vue';
 
-export default {
-  setup() {
-    const email = ref('is@wico.cc');
-    const password = ref('demoPwd123');
+const email = ref('is@wico.cc');
+const password = ref('demoPwd123');
 
-    async function doLogin() {
+async function doLogin() {
 
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("email", email.value);
-        urlencoded.append("password", password.value);
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("email", email.value);
+    urlencoded.append("password", password.value);
 
-        var requestOptions = {
-          method: 'POST',
-          body: urlencoded,
-          // redirect: 'follow'
-        };
-
-        return fetch("http://localhost:5173/v1/login", requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
-    }
-
-    return {
-      email,
-      password,
-      login,
+    var requestOptions = {
+      method: 'POST',
+      body: urlencoded,
+      // redirect: 'follow'
     };
-  }
-};
+
+    return fetch("http://localhost:5173/v1/login", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+}
 
 
+// export default {
+//   setup() {
+
+//     return {
+//       email,
+//       password,
+//       login,
+//     };
+//   }
+// };
 </script>
   
 <style scoped>
