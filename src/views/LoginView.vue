@@ -120,7 +120,7 @@ async function doLogin() {
       // redirect: 'follow'
     };
 
-    return fetch("http://api.wico.dev/v1/login", requestOptions)
+    return fetch("https://api.wico.dev/v1/login", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
