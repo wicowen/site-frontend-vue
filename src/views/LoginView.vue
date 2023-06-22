@@ -22,7 +22,7 @@
                   <input
                     v-model="email"
                     id="email" name="email" type="email" autocomplete="email" required="true"
-                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -32,8 +32,8 @@
                 <div class="mt-2">
                   <input
                     v-model="password"
-                    id="password" name="password" type="password" autocomplete="current-password" required="true" 
-                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                    id="password" name="password" type="password" autocomplete="current-password" required="true"
+                    class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -120,7 +120,7 @@ async function doLogin() {
       // redirect: 'follow'
     };
 
-    return fetch("http://localhost:5173/v1/login", requestOptions)
+    return fetch("http://api.wico.dev/v1/login", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
@@ -138,6 +138,6 @@ async function doLogin() {
 //   }
 // };
 </script>
-  
+
 <style scoped>
 </style>
