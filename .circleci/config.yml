@@ -4,6 +4,7 @@ version: 2.1
 # https://circleci.com/developer/orbs?filterBy=popular
 orbs:
   aws-cli: circleci/aws-cli@3.1
+  slack: circleci/slack@4.12
   # aws-s3: circleci/aws-s3@3.1
   # aws-cli: circleci/aws-cli@1.4.1
 
@@ -33,8 +34,28 @@ jobs:
       BUCKET_REGION: ap-northeast-1
       CACHE_CONTROL: "max-age=5"
       AWS_DEFAULT_REGION: "ap-northeast-1"
+      SLACK_CHANNEL: "C05F95CDQCS"
 
     steps:
+      - slack/notify:
+            channel: $SLACK_CHANNEL
+            custom: |
+                {
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "plain_text",
+                          "text": "$CIRCLE_JOB - Building",
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+            event: always
+
       - checkout
 
       - aws-cli/setup:
@@ -73,3 +94,15 @@ jobs:
           command: |
             aws s3 cp --exclude "index.html" --region "${BUCKET_REGION}" --acl "public-read" --cache-control "${CACHE_CONTROL}" --recursive "${BUILD_PATH}/" "s3://${BUCKET_NAME}/"
             aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
+
+
+      - slack/notify:
+            event: pass
+            channel: $SLACK_CHANNEL
+            template: basic_success_1
+
+      - slack/notify:
+            event: fail
+            channel: $SLACK_CHANNEL
+            template: basic_fail_1
+
