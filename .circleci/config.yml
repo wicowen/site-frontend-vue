@@ -3,8 +3,8 @@ version: 2.1
 # circle ci orb's doc
 # https://circleci.com/developer/orbs?filterBy=popular
 orbs:
-  aws-cli: circleci/aws-cli@3.1
   slack: circleci/slack@4.12
+  aws-cli: circleci/aws-cli@3.1
   # aws-s3: circleci/aws-s3@3.1
   # aws-cli: circleci/aws-cli@1.4.1
 
@@ -40,23 +40,23 @@ jobs:
 
     steps:
       - slack/notify:
-            channel: $SLACK_CHANNEL
-            custom: |
-                {
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "plain_text",
-                          "text": "$CIRCLE_JOB - Building",
-                          "emoji": true
-                        }
-                      ]
-                    }
-                  ]
-                }
-            event: always
+          channel: $SLACK_CHANNEL
+          custom: |
+              {
+                "blocks": [
+                  {
+                    "type": "section",
+                    "fields": [
+                      {
+                        "type": "plain_text",
+                        "text": "$CIRCLE_JOB - Building",
+                        "emoji": true
+                      }
+                    ]
+                  }
+                ]
+              }
+          event: always
 
       - checkout
 
