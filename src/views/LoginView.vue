@@ -120,10 +120,14 @@ async function doLogin() {
       // redirect: 'follow'
     };
 
-    return fetch("https://api.wico.dev/v1/login", requestOptions)
+    // when dev send to localhost or when prod send to api.wico.dev
+    const url = import.meta.env.DEV ? '/v1/login' : 'https://api.wico.dev/v1/login';
+
+    return fetch(url, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
+
 }
 
 
