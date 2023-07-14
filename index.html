@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <!-- <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'self'; script-src https://accounts.google.com/gsi/client; frame-src https://accounts.google.com/gsi/; connect-src https://accounts.google.com/gsi/"> -->
     <title>W</title>
     <!-- <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
@@ -39,5 +41,7 @@
   <body class="h-full">
     <div id="vue-app" class="h-full"></div>
     <script type="module" src="/src/main.ts"></script>
+    <!-- <script src="https://accounts.google.com/gsi/client" onload="console.log('TODO: add onload function')"></script> -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
   </body>
 </html>
