@@ -3,8 +3,8 @@ version: 2.1
 # circle ci orb's doc
 # https://circleci.com/developer/orbs?filterBy=popular
 orbs:
-  slack: circleci/slack@4.12
-  aws-cli: circleci/aws-cli@3.1
+  # slack: circleci/slack@4.12
+  aws-cli: circleci/aws-cli@3.2
   # aws-s3: circleci/aws-s3@3.1
   # aws-cli: circleci/aws-cli@1.4.1
 
@@ -15,8 +15,8 @@ workflows:
           name: "prod_frontend_site"
           app: "site"
           deploy_version: "202305191456"
-          context:
-            - slack-secret-key
+          # context:
+          #   - slack-secret-key
           filters:
             branches:
               only: main
@@ -32,31 +32,33 @@ jobs:
         type: string
     environment:
       BUILD_PATH: dist
-      BUCKET_NAME: vue.wico.dev
-      BUCKET_REGION: ap-northeast-1
+      BUCKET_NAME: vue3.wico.dev
+      BUCKET_REGION: "us-west-1"
+      AWS_DEFAULT_REGION: "us-west-1"
       CACHE_CONTROL: "max-age=5"
-      AWS_DEFAULT_REGION: "ap-northeast-1"
-      SLACK_CHANNEL: "C05F95CDQCS"
+      # BUCKET_REGION: ap-northeast-1
+      # AWS_DEFAULT_REGION: "ap-northeast-1"
+      # SLACK_CHANNEL: "C05F95CDQCS"
 
     steps:
-      - slack/notify:
-          channel: $SLACK_CHANNEL
-          custom: |
-              {
-                "blocks": [
-                  {
-                    "type": "section",
-                    "fields": [
-                      {
-                        "type": "plain_text",
-                        "text": "$CIRCLE_JOB - Building",
-                        "emoji": true
-                      }
-                    ]
-                  }
-                ]
-              }
-          event: always
+      # - slack/notify:
+      #     channel: $SLACK_CHANNEL
+      #     custom: |
+      #         {
+      #           "blocks": [
+      #             {
+      #               "type": "section",
+      #               "fields": [
+      #                 {
+      #                   "type": "plain_text",
+      #                   "text": "$CIRCLE_JOB - Building",
+      #                   "emoji": true
+      #                 }
+      #               ]
+      #             }
+      #           ]
+      #         }
+      #     event: always
 
       - checkout
 
@@ -76,9 +78,9 @@ jobs:
       # save packages as cache
       - save_cache:
           key: npm-packages-<<parameters.deploy_version>>-{{ .Branch }}-<<parameters.app>>-{{ checksum "package-lock.json" }}
-          paths: 
+          paths:
             - node_modules
- 
+
       - run:
           name: Build <<parameters.app>>
           command: |
@@ -98,13 +100,13 @@ jobs:
             aws s3 cp --region "${BUCKET_REGION}" --acl "public-read" --cache-control "max-age=0" "${BUILD_PATH}/index.html" "s3://${BUCKET_NAME}/index.html"
 
 
-      - slack/notify:
-            event: pass
-            channel: $SLACK_CHANNEL
-            template: basic_success_1
+      # - slack/notify:
+      #       event: pass
+      #       channel: $SLACK_CHANNEL
+      #       template: basic_success_1
 
-      - slack/notify:
-            event: fail
-            channel: $SLACK_CHANNEL
-            template: basic_fail_1
+      # - slack/notify:
+      #       event: fail
+      #       channel: $SLACK_CHANNEL
+      #       template: basic_fail_1
 
